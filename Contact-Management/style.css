@@ -1,0 +1,231 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+
+#main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#contentWrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#searchdev {
+  flex: 1;
+  max-width: 45%;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+#searchdev h1 {
+  margin-bottom: 15px;
+  font-size: 28px;
+}
+
+#searchtool {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#contactList {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact-card {
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.contact-card img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-info span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+#header{
+  display: flex;
+  justify-content: space-between;
+}
+#contactDetails {
+  flex: 1;
+  max-width: 45%; 
+  background-color: white;
+  padding: 20px;
+  padding-top: 40px; 
+  border-radius: 10px;
+  position: relative; 
+}
+
+#contactDetails h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.details-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.details-form img {
+  width: 100px;
+  height: 100px; 
+  border-radius: 50%; 
+  object-fit: cover;
+  position: absolute; 
+  top: 20px;
+  right: 20px; 
+}
+
+.details-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.details-form input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+}
+
+
+#addButton {
+  font-size: 24px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+}
+
+#modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modalOverlay.hidden {
+  display: none;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+}
+
+.modal label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.modal-actions button {
+  padding: 8px 15px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-actions button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-actions button#cancelEdit {
+  background-color: white;
+  color: #007bff;
+  border :1px solid;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #contentWrapper {
+    flex-direction: column;
+  }
+
+  .details-form {
+    grid-template-columns: 1fr;
+  }
+
+  .details-form img {
+    grid-column: span 1;
+    margin: auto;
+  }
+
+  #searchdev, #contactDetails {
+    max-width: 100%; 
+  }
+}

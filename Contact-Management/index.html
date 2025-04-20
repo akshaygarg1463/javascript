@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="header">
+    <h1>Contact App</h1>
+    <button id="addButton">+</button>
+  </header>
+
+  <main id="main">
+    
+    <div id="contentWrapper">
+
+     
+      <section id="searchdev">
+        <input type="text" id="searchtool" placeholder="Search by name" />
+        <div id="contactList"></div>
+      </section>
+
+      <section id="contactDetails" hidden>
+        <h2>Contact Details</h2>
+        <form class="details-form">
+          <div>
+            <img id="profileImage" src="" alt="Profile Image" />
+          </div>
+
+          <label for="detailName">Name:</label>
+          <input type="text" id="detailName" readonly />
+
+          <label for="detailPhone">Phone:</label>
+          <input type="text" id="detailPhone" readonly />
+
+          <label for="detailEmail">Email:</label>
+          <input type="text" id="detailEmail" readonly />
+
+          <label for="detailAddress1">Address 1:</label>
+          <input type="text" id="detailAddress1" readonly />
+
+          <label for="detailAddress2">Address 2:</label>
+          <input type="text" id="detailAddress2" readonly />
+        </form>
+      </section>
+
+    </div>
+
+  </main>
+
+  <div id="modalOverlay" class="hidden">
+    <div class="modal">
+      <h2 id="modalTitle">Add Contact</h2>
+      <form id="editForm">
+        <label for="editName">Name</label>
+        <input type="text" id="editName" placeholder="Name" required />
+
+        <label for="editPhone">Phone</label>
+        <input type="text" id="editPhone" placeholder="Phone" required />
+
+        <label for="editEmail">Email</label>
+        <input type="email" id="editEmail" placeholder="Email" required />
+
+        <label for="editAddress1">Address 1</label>
+        <input type="text" id="editAddress1" placeholder="Address 1" required />
+
+        <label for="editAddress2">Address 2</label>
+        <input type="text" id="editAddress2" placeholder="Address 2" required />
+
+       
+        <label for="editImageUrl">Profile Image URL</label>
+        <input type="text" id="editImageUrl" placeholder="Paste image URL here" />
+
+        <div class="modal-actions">
+          <button type="submit">Save</button>
+          <button type="button" id="cancelEdit">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+</body>
+</html>
