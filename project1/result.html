@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Details</title>
+</head>
+<body>
+    <h2>User Submitted Details</h2>
+    <div id="output"></div>
+
+    <script>
+        var data = JSON.parse(localStorage.getItem("userData"));
+        var container = document.getElementById("output");
+    
+        if (data) {
+            var output = `
+                <h3>First Name:</h3> <p>${data.firstName}</p>
+                <h3>Last Name:</h3> <p>${data.lastName}</p>
+                <h3>Phone:</h3> <p>${data.phone}</p>
+                <h3>Email:</h3> <p>${data.email}</p>
+                <h3>Address:</h3><p>${data.address}</p>
+                <h3>City:</h3><p>${data.city}</p>
+            `;
+    
+            if (data.zip) {
+                output += `<h3>Zip Code:</h3> <p>${data.zip}</p>`;
+            }
+    
+            if (data.project) {
+                output += `<h3>Project Description:</h3> <p>${data.project}</p>`;
+            }
+    
+            if (data.web) {
+                output += `<h3>Website Domain Name:</h3> <p>${data.web}</p>`;
+            }
+    
+            if (data.hosting) {
+                output += `<h3>Hosting:</h3> <p>${data.hosting}</p>`;
+            }
+    
+            container.innerHTML = output;
+        } else {
+            container.innerHTML = "<p>No data found.</p>";
+        }
+    </script>
+    
+</body>
+</html>

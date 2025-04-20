@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="index.css" rel="stylesheet"/>
+  <title>Contact Details</title>
+</head>
+<body>
+  <div id="detailsContainer">
+    <h2>Contact Details</h2>
+    <div id="detailsCard"></div>
+    <button onclick="history.back()">Back to List</button>
+  </div>
+  <script >
+    document.addEventListener("DOMContentLoaded", () => {
+  const raw = localStorage.getItem("selectedContact");
+  const container = document.getElementById("detailsCard");
+  if (!raw) {
+    container.innerText = " No contact selected.";
+    return;
+  }
+  const c = JSON.parse(raw);
+  container.innerHTML = `
+    <p><strong>Name:</strong> ${c.name}</p>
+    <p><strong>Phone:</strong> ${c.phone}</p>
+    <p><strong>Email:</strong> ${c.email}</p>
+    <p><strong>Address 1:</strong> ${c.address1}</p>
+    <p><strong>Address 2:</strong> ${c.address2}</p>
+  `;
+});
+
+  </script>
+</body>
+</html>

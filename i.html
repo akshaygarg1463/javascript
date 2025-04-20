@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="off">click me </button>
+    <ul>
+        <li>monday</li>
+        <li>tuesday</li>
+    </ul>
+</body>
+ <script>
+    const btn = document.querySelector('.off');
+    console.log( btn.innerText);
+   btn.addEventListener("click",function(){
+    this.innerText = "xyx";
+   })
+   function addlistelement(element){
+    const a =document.querySelector('ul');
+    const p =document .createElement('li');
+    p.innerText=element;
+    a.appendChild(p);
+   }
+//    addlistelement("i am just testing it");
+//    console.log(document.querySelector('ul'));
+//    const p =document .createElement('li');
+//    p.innerText='naya bacha';
+//    document.querySelector('ul').replaceChild(p,'monday');
+
+   console.log(document);
+</script>
+</html>

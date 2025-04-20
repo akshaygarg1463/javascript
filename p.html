@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>change background color using button</h1>
+    <button id="grey"></button>
+    <button id="green"></button>
+    <button id="blue"></button>
+    <button id="orange"></button>
+
+    <div style="display: none;width: 200px;height:200px"></div>
+</body>
+<script>
+    document.getElementById('grey').addEventListener('click',function(){
+        document.body.style.backgroundColor ="grey";
+        const a =document.querySelector('div');
+        a.style.display="none";
+    })
+    document.getElementById('green').addEventListener('click',function(){
+        document.body.style.backgroundColor ="green";
+        const a =document.querySelector('div');
+        a.style.display="none";
+    })
+    document.getElementById('blue').addEventListener('click',function(){
+        document.body.style.backgroundColor ="blue";
+        const a =document.querySelector('div');
+        a.style.display="block";
+        a.style.backgroundColor="black";
+    })
+    document.getElementById('orange').addEventListener('click',function(){
+        document.body.style.backgroundColor ="orange";
+        const a =document.querySelector('div');
+        a.style.display="none";
+    })
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="x">click me</button>
+    <div id ="y"> this is a box<span style="display: none">ffff</span> </div>
+    <h1 class="s">hbheuixjujs</h1>
+    <h1 class="s">sdwwwwss</h1>
+    <ul id="p">
+        <li>one</li>
+        <li>two</li>
+        <li>three</li>
+        <li>four</li>
+    </ul>
+
+</body> 
+<script >
+ console.log(document.getElementById("y").textContent);
+ console.log(document.getElementById("y").innerHTML);
+ console.log(document.getElementById("y").innerText);
+console.log(document.querySelector('h1'));
+console.log(document.querySelectorAll('h1'));
+console.log(Array.from(document.getElementsByClassName("s")));
+
+
+console.log(document.querySelector('#p'));
+console.log(document.querySelector('#p').children);
+
+const a = document.createElement('div');
+a.id ="main";
+a.innerText ="innner text h bhai ";
+document.body.appendChild(a);
+
+function addli(a){{
+   const li= document.createElement('li');
+    li.appendChild(document.createTextNode(a))
+    document.querySelector("#p").appendChild(li);
+}}
+</script>
+</html>

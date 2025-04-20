@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="start">start</button>
+    <button id="stop">stop</button>
+
+</body>
+<script>
+    let x;
+    const st =document.getElementById('start');
+    const ed =document.getElementById('stop');
+    function print(){
+        console.log("bc");
+    }
+   const a = st.addEventListener('click',function(){
+      x =  setInterval(print,1000);
+      console.log(x);
+    })
+    ed.addEventListener("click",function(){
+        clearInterval(x);
+        console.log(x);
+        x= 0;
+    })
+    
+</script>
+</html>

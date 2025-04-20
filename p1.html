@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+    <h1>BMI Calculator</h1>
+    <input type="number" id="height" placeholder="enter your height in cm">
+    <input type="number" id="weight" placeholder="enter your weight in kg">
+    <button>find your BMI</button>
+    <div id="result"></div>
+    </form>
+</body>
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener("submit",function(e){
+        e.preventDefault();
+       const height= document.getElementById('height').value;
+       const weight = document.getElementById('weight').value;
+       if(height===" "||weight===" "|| isNaN(height)||isNaN(weight)||height<0||weight<0){
+        console.log("invalid inputs");
+       }
+       else{
+        document.getElementById("result").innerText =(weight/((height*height)/10000)).toFixed(2);
+
+       }
+    }) 
+</script>
+</html>
