@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const app = express();
-const port = 5000;
+const port = 3000;
 
 app.use(express.json());
 
@@ -111,5 +111,5 @@ app.delete('/contacts/:id', function(req, res) {
 });
 
 app.listen(port, function() {
-  console.log(`Server running on http://localhost:5000`);
+  console.log(`Server running on http://localhost:3000`);
 });

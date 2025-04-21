@@ -85,6 +85,7 @@ body {
 #header{
   display: flex;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 #contactDetails {
   flex: 1;
@@ -134,7 +135,7 @@ body {
 
 #addButton {
   font-size: 24px;
-  padding: 10px 20px;
+  padding: 8px 20px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -210,7 +211,7 @@ body {
   border :1px solid;
 }
 
-/* Responsive Design */
+
 @media (max-width: 768px) {
   #contentWrapper {
     flex-direction: column;
@@ -227,5 +228,21 @@ body {
 
   #searchdev, #contactDetails {
     max-width: 100%; 
+  }
+}
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  #searchdev h1, #contactDetails h2 {
+    font-size: 20px;
+  }
+
+  .contact-info span {
+    font-size: 14px;
+  }
+  body{
+    margin:0
   }
 }
