@@ -107,13 +107,26 @@ function openModal(contact = {}, index = null) {
 editForm.onsubmit = function (e) {
   e.preventDefault();
 
+  var phoneRegex = /^\d{7,}$/; // At least 7 digits
+  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!phoneRegex.test(editPhone.value.trim())) {
+    alert("Please enter a valid phone number (at least 7 digits).");
+    return;
+  }
+
+  if (!emailRegex.test(editEmail.value.trim())) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+
   const newContact = {
-    name: editName.value,
-    phone: editPhone.value,
-    email: editEmail.value,
-    address1: editAddress1.value,
-    address2: editAddress2.value,
-    image: editImageUrl.value.trim() 
+    name: editName.value.trim(),
+    phone: editPhone.value.trim(),
+    email: editEmail.value.trim(),
+    address1: editAddress1.value.trim(),
+    address2: editAddress2.value.trim(),
+    image: editImageUrl.value.trim()
   };
 
   if (currentEditIndex === null) {
