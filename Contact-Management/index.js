@@ -107,8 +107,8 @@ function openModal(contact = {}, index = null) {
 editForm.onsubmit = function (e) {
   e.preventDefault();
 
-  var phoneRegex = /^\d{7,}$/; // At least 7 digits
-  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var phoneRegex = /^\d{10,}$/;
+  var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]+$/;
 
   if (!phoneRegex.test(editPhone.value.trim())) {
     alert("Please enter a valid phone number (at least 7 digits).");
