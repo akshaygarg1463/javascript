@@ -1,8 +1,20 @@
 const db = require('../db');
+
+
+/*
+*********************************************************
+*  @Method Name    : createContact
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Creates a new contact along with optional multiple addresses.
+*                    First inserts the contact into the 'contacts' table, then 
+*                    inserts all associated addresses into the 'addresses' table.
+*  @return         : JSON response with success or error message and contact ID.
+*********************************************************
+*/
 exports.createContact = function(req, res) {
     const { first_name, last_name, email, phone, profile_img, addresses } = req.body;
-  
-    // Step 1: Insert the contact
+    console.log("random value",req.body)
     const contactQuery = `INSERT INTO contacts (first_name, last_name, email, phone, profile_img) VALUES (?, ?, ?, ?, ?)`;
   
     db.query(contactQuery, [first_name, last_name, email, phone, profile_img], function(err, result) {
@@ -30,8 +42,16 @@ exports.createContact = function(req, res) {
     });
   };
 
-
-// Get all contacts with their addresses
+/*
+*********************************************************
+*  @Method Name    : getAllContacts
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Fetches all contacts and their associated addresses using 
+*                    LEFT JOIN to combine 'contacts' and 'addresses' tables.
+*  @return         : JSON response with the list of contacts and addresses or error.
+*********************************************************
+*/
 exports.getAllContacts = (req, res) => {
   // Query to fetch all contacts along with addresses
   const query = `SELECT contacts.id AS contact_id, contacts.first_name, contacts.last_name, contacts.email, 
@@ -58,7 +78,16 @@ exports.getAllContacts = (req, res) => {
 
 
 
-// Get a single contact by its ID, along with addresses
+/*
+*********************************************************
+*  @Method Name    : getContactById
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Retrieves a specific contact and its addresses based on the given ID.
+*  @param          : id - Contact ID (from URL params)
+*  @return         : JSON response with the contact data or error.
+*********************************************************
+*/
 exports.getContactById = (req, res) => {
     const contactId = req.params.id; // Get the contact ID from the URL parameters
   
@@ -89,6 +118,17 @@ exports.getContactById = (req, res) => {
   };
   
 
+/*
+*********************************************************
+*  @Method Name    : updateContact
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Updates an existing contact and replaces all of its addresses.
+*                    Steps: update contact data → delete old addresses → insert new addresses.
+*  @param          : id - Contact ID (from URL params)
+*  @return         : JSON response indicating success or failure.
+*********************************************************
+*/
 
 exports.updateContact = (req, res) => {
   const contactId = req.params.id;
@@ -150,6 +190,17 @@ exports.updateContact = (req, res) => {
 
 
 
+/*
+*********************************************************
+*  @Method Name    : deleteContact
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Deletes a contact by its ID. Addresses are also deleted 
+*                    if foreign key constraint is set with ON DELETE CASCADE.
+*  @param          : id - Contact ID (from URL params)
+*  @return         : JSON response confirming deletion or error.
+*********************************************************
+*/
 exports.deleteContact = (req, res) => {
   const contactId = req.params.id;
 
@@ -169,3 +220,19 @@ exports.deleteContact = (req, res) => {
   });
 };
 
+
+exports.updateAddress =(req,res)=>{
+    const query = 'SET street = ?, state = ?, country = ? '
+     
+    db.query(query,function(err,result){
+        if (err) {
+            return res.status(500).json({ message: 'Failed to delete contact', error: err });
+          }
+      
+          if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Contact not found' });
+          }
+    })
+}
+
+  

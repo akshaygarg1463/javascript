@@ -1,5 +1,5 @@
 let contacts = [];
-let currentEditId = null;
+var currentEditId = null;
 
 const contactList = document.getElementById("contactList");
 const searchTool = document.getElementById("searchtool");
@@ -24,7 +24,16 @@ const editStreet = document.getElementById("editStreet");
 const editState = document.getElementById("editState");
 const editCountry = document.getElementById("editCountry");
 const cancelEdit = document.getElementById("cancelEdit");
-
+const addresseditbutton =document.querySelectorAll("edit-btn");
+/*
+*********************************************************
+*  @Method Name    : fetchContacts
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Fetches contact list from backend and renders them
+*  @return         : void
+*********************************************************
+*/
 function fetchContacts() {
   fetch("http://localhost:5000/api/contacts")
     .then(response => response.json())
@@ -34,7 +43,15 @@ function fetchContacts() {
     })
     .catch(err => console.error("Failed to load contacts:", err));
 }
-
+/*
+*********************************************************
+*  @Method Name    : renderContacts
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Displays contact list with edit and delete buttons
+*  @return         : void
+*********************************************************
+*/
 function renderContacts(filtered = contacts) {
   contactList.innerHTML = "";
   filtered.forEach(function (contact) {
@@ -70,7 +87,7 @@ function renderContacts(filtered = contacts) {
 </svg>`;
     deleteBtn.onclick = function () {
       if (confirm("Delete this contact?")) {
-        fetch(`http://localhost:5000/api/contact/${contact.id}`, { method: "DELETE" })
+        fetch(`http://localhost:5000/api/contact/${contact.contact_id}`, { method: "DELETE" })
           .then(response => {
             if (!response.ok) throw new Error("Delete failed");
             fetchContacts();
@@ -86,7 +103,15 @@ function renderContacts(filtered = contacts) {
     contactList.appendChild(row);
   });
 }
-
+/*
+*********************************************************
+*  @Method Name    : showDetails
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Displays selected contact's details
+*  @return         : void
+*********************************************************
+*/
 function showDetails(contact) {
   if (!contactDetails) return;
   profileImage.src = contact.profile_img || "";
@@ -98,11 +123,19 @@ function showDetails(contact) {
   detailAddress2.value = `${contact.state || ""}, ${contact.country || ""}`;
   contactDetails.hidden = false;
 }
-
-function openModal(contact = {}, index = null) {
+/*
+*********************************************************
+*  @Method Name    : openModal
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Opens the modal for editing or adding contact
+*  @return         : void
+*********************************************************
+*/
+function openModal(contact = {}) {
   modalOverlay.classList.remove("hidden");
-  modalTitle.textContent = contact.id ? "Edit Contact" : "Add Contact";
-  currentEditId = contact.id || null;
+  modalTitle.textContent = contact.contact_id ? "Edit Contact" : "Add Contact";
+  currentEditId = contact.contact_id|| null;
 
   editFirstName.value = contact.first_name || "";
   editLastName.value = contact.last_name || "";
@@ -113,10 +146,17 @@ function openModal(contact = {}, index = null) {
   editState.value = contact.state || "";
   editCountry.value = contact.country || "";
 }
-
+/*
+*********************************************************
+*  @Method Name    : editForm.onsubmit
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Handles form submission for add/edit
+*  @return         : void
+*********************************************************
+*/
 editForm.onsubmit = function (e) {
   e.preventDefault();
-
   var phoneRegex = /^\d{7,}$/;
   var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]+$/;
 
@@ -130,16 +170,24 @@ editForm.onsubmit = function (e) {
     return;
   }
 
+
   var contactData = {
     first_name: editFirstName.value.trim(),
     last_name: editLastName.value.trim(),
     phone: editPhone.value.trim(),
     email: editEmail.value.trim(),
     profile_img: editImageUrl.value.trim(),
-    street: editStreet.value.trim(),
-    state: editState.value.trim(),
-    country: editCountry.value.trim()
+    
+    addresses: [
+      {
+        type: "address1", 
+        street: editStreet.value.trim(),
+        state: editState.value.trim(),
+        country: editCountry.value.trim()
+      }
+    ]
   };
+  
 
   var url = "http://localhost:5000/api/contact";
   var method = "POST";
@@ -151,9 +199,6 @@ editForm.onsubmit = function (e) {
 
   fetch(url, {
     method: method,
-    headers: {
-      "Content-Type": "application/json"
-    },
     body: JSON.stringify(contactData)
   })
     .then(function (response) {
@@ -172,15 +217,39 @@ editForm.onsubmit = function (e) {
       alert("Something went wrong.");
     });
 };
-
+/*
+*********************************************************
+*  @Method Name    : cancelEdit.onclick
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Closes the modal without saving
+*  @return         : void
+*********************************************************
+*/
 cancelEdit.onclick = function () {
   modalOverlay.classList.add("hidden");
 };
-
+/*
+*********************************************************
+*  @Method Name    : addButton.onclick
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Opens modal to add a new contact
+*  @return         : void
+*********************************************************
+*/
 addButton.onclick = function () {
   openModal();
 };
-
+/*
+*********************************************************
+*  @Method Name    : searchTool.oninput
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Filters contacts based on search input
+*  @return         : void
+*********************************************************
+*/
 searchTool.oninput = function () {
   const query = searchTool.value.toLowerCase();
   const results = contacts.filter(function (c) {
@@ -188,18 +257,79 @@ searchTool.oninput = function () {
   });
   renderContacts(results);
 };
-
+/*
+*********************************************************
+*  @Method Name    : Inline Address Input Editable Handler
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Makes address fields editable on click
+*  @return         : void
+*********************************************************
+*/
 [detailAddress1, detailAddress2].forEach(function (input) {
   input.addEventListener("click", function () {
     input.readOnly = false;
     input.focus();
   });
+
   input.addEventListener("keydown", function handleKey(e) {
     if (e.key === "Enter") {
+      e.preventDefault();
       input.readOnly = true;
       input.removeEventListener("keydown", handleKey);
+
+      var updatedValue = input.value.trim();
+      var addressField = input.id === "detailAddress1" ? "address1" : "address2";
+      var contactId = currentEditId;
+
+      if (!contactId) {
+        alert("No contact selected for update!");
+        return;
+      }
+
+      // Collect both addresses for updating the contact
+      var updatedAddresses = {
+        address1: document.getElementById("detailAddress1").value.trim(),
+        address2: document.getElementById("detailAddress2").value.trim(),
+      };
+
+      fetch("/update-address", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contactId: contactId,
+          addressField: addressField,
+          updatedValue: updatedValue,
+          updatedAddresses: updatedAddresses, // Pass both address values
+        }),
+      })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (data) {
+          if (data.success) {
+            console.log("Address updated successfully.");
+          } else {
+            alert("Failed to update address.");
+          }
+        })
+        .catch(function (err) {
+          console.error("Error updating address:", err);
+        });
     }
   });
 });
 
+
+/*
+*********************************************************
+*  @Method Name    : fetchContacts (initial call)
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Initial fetch call on load
+*  @return         : void
+*********************************************************
+*/
 fetchContacts();

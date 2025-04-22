@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,10 +8,8 @@
 body {
   background-color: #f5f5f5;
   padding: 20px;
-  margin-left: 100px;
-  margin-right: 100px;
+  margin: 0 100px;
 }
-
 
 #main {
   display: flex;
@@ -20,11 +17,18 @@ body {
   gap: 20px;
 }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
 #contentWrapper {
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
+
 
 #searchdev {
   flex: 1;
@@ -82,19 +86,15 @@ body {
   font-weight: 500;
 }
 
-#header{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
+
 #contactDetails {
   flex: 1;
-  max-width: 45%; 
+  max-width: 45%;
   background-color: white;
-  padding: 20px;
-  padding-top: 40px; 
+  padding: 20px 20px 20px 20px;
+  padding-top: 40px;
   border-radius: 10px;
-  position: relative; 
+  position: relative;
 }
 
 #contactDetails h2 {
@@ -102,21 +102,11 @@ body {
   font-size: 24px;
 }
 
+
 .details-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
-
-
-.details-form img {
-  width: 100px;
-  height: 100px; 
-  border-radius: 50%; 
-  object-fit: cover;
-  position: absolute; 
-  top: 20px;
-  right: 20px; 
 }
 
 .details-form label {
@@ -132,6 +122,29 @@ body {
   background-color: #f3f3f3;
 }
 
+.details-form div {
+  position: relative;
+  margin-bottom: 20px;
+
+}
+.labeldiv{
+  display: flex
+;
+    flex-direction: column;
+}
+#imagediv{
+  display: flex;
+    justify-content: end;
+}
+#profileImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
 
 #addButton {
   font-size: 24px;
@@ -145,13 +158,14 @@ body {
   height: 60px;
 }
 
+
 #modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -208,41 +222,47 @@ body {
 .modal-actions button#cancelEdit {
   background-color: white;
   color: #007bff;
-  border :1px solid;
+  border: 1px solid;
 }
 
+
+#imagemanipulation {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+}
 
 @media (max-width: 768px) {
   #contentWrapper {
     flex-direction: column;
   }
 
-  .details-form {
-    grid-template-columns: 1fr;
+  #searchdev,
+  #contactDetails {
+    max-width: 100%;
   }
 
   .details-form img {
-    grid-column: span 1;
     margin: auto;
   }
-
-  #searchdev, #contactDetails {
-    max-width: 100%; 
-  }
 }
+
 @media (max-width: 480px) {
   body {
     font-size: 14px;
+    margin: 0;
   }
 
-  #searchdev h1, #contactDetails h2 {
+  #searchdev h1,
+  #contactDetails h2 {
     font-size: 20px;
   }
 
   .contact-info span {
     font-size: 14px;
-  }
-  body{
-    margin:0
   }
 }
