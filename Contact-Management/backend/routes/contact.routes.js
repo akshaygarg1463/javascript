@@ -72,7 +72,7 @@ router.put('/contact/:id', contactController.updateContact);
 */
 router.delete('/contact/:id', contactController.deleteContact);
 
-router.put('/update-address',contactController.updateAddress);
+
 /*
 *********************************************************
 *  @Method Name    : Export Contact Routes

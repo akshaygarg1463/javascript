@@ -221,18 +221,6 @@ exports.deleteContact = (req, res) => {
 };
 
 
-exports.updateAddress =(req,res)=>{
-    const query = 'SET street = ?, state = ?, country = ? '
-     
-    db.query(query,function(err,result){
-        if (err) {
-            return res.status(500).json({ message: 'Failed to delete contact', error: err });
-          }
-      
-          if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Contact not found' });
-          }
-    })
-}
+
 
   

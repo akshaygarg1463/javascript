@@ -135,6 +135,7 @@ body {
 #imagediv{
   display: flex;
     justify-content: end;
+    
 }
 #profileImage {
   width: 120px;
@@ -144,7 +145,10 @@ body {
   position: relative;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-
+#addressblocks,#nameblock{
+  display: flex;
+  gap:20px;
+}
 
 #addButton {
   font-size: 24px;

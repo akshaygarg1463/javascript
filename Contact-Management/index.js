@@ -24,7 +24,8 @@ const editStreet = document.getElementById("editStreet");
 const editState = document.getElementById("editState");
 const editCountry = document.getElementById("editCountry");
 const cancelEdit = document.getElementById("cancelEdit");
-const addresseditbutton =document.querySelectorAll("edit-btn");
+const address1button =document.getElementById("address1btn");
+const address2button =document.getElementById("address2btn");
 /*
 *********************************************************
 *  @Method Name    : fetchContacts
@@ -114,6 +115,16 @@ function renderContacts(filtered = contacts) {
 */
 function showDetails(contact) {
   if (!contactDetails) return;
+    // Log each field to see its value
+    console.log("Profile Image:", contact.profile_img);
+    console.log("First Name:", contact.first_name);
+    console.log("Last Name:", contact.last_name);
+    console.log("Phone:", contact.phone);
+    console.log("Email:", contact.email);
+    console.log("Street (Address1):", contact.street);
+    console.log("State (Address2):", contact.state);
+    console.log("Country (Address2):", contact.country);
+
   profileImage.src = contact.profile_img || "";
   detailFirstName.value = contact.first_name || "";
   detailLastName.value = contact.last_name || "";
@@ -122,6 +133,7 @@ function showDetails(contact) {
   detailAddress1.value = contact.street || "";
   detailAddress2.value = `${contact.state || ""}, ${contact.country || ""}`;
   contactDetails.hidden = false;
+  // currentEditId=contact.address_id;
 }
 /*
 *********************************************************
@@ -266,61 +278,61 @@ searchTool.oninput = function () {
 *  @return         : void
 *********************************************************
 */
-[detailAddress1, detailAddress2].forEach(function (input) {
-  input.addEventListener("click", function () {
-    input.readOnly = false;
-    input.focus();
-  });
+// [detailAddress1, detailAddress2].forEach(function (input) {
+//   input.addEventListener("click", function () {
+//     input.readOnly = false;
+//     input.focus();
+//   });
 
-  input.addEventListener("keydown", function handleKey(e) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      input.readOnly = true;
-      input.removeEventListener("keydown", handleKey);
+//   input.addEventListener("keydown", function handleKey(e) {
+//     if (e.key === "Enter") {
+//       e.preventDefault();
+//       input.readOnly = true;
+//       input.removeEventListener("keydown", handleKey);
 
-      var updatedValue = input.value.trim();
-      var addressField = input.id === "detailAddress1" ? "address1" : "address2";
-      var contactId = currentEditId;
+//       var updatedValue = input.value.trim();
+//       var addressField = input.id === "detailAddress1" ? "address1" : "address2";
+//       var contactId = currentEditId;
 
-      if (!contactId) {
-        alert("No contact selected for update!");
-        return;
-      }
+//       if (!contactId) {
+//         alert("No contact selected for update!");
+//         return;
+//       }
 
-      // Collect both addresses for updating the contact
-      var updatedAddresses = {
-        address1: document.getElementById("detailAddress1").value.trim(),
-        address2: document.getElementById("detailAddress2").value.trim(),
-      };
+//       // Collect both addresses for updating the contact
+//       var updatedAddresses = {
+//         address1: document.getElementById("detailAddress1").value.trim(),
+//         address2: document.getElementById("detailAddress2").value.trim(),
+//       };
 
-      fetch("/update-address", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contactId: contactId,
-          addressField: addressField,
-          updatedValue: updatedValue,
-          updatedAddresses: updatedAddresses, // Pass both address values
-        }),
-      })
-        .then(function (res) {
-          return res.json();
-        })
-        .then(function (data) {
-          if (data.success) {
-            console.log("Address updated successfully.");
-          } else {
-            alert("Failed to update address.");
-          }
-        })
-        .catch(function (err) {
-          console.error("Error updating address:", err);
-        });
-    }
-  });
-});
+//       fetch("/update-address", {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//           contactId: contactId,
+//           addressField: addressField,
+//           updatedValue: updatedValue,
+//           updatedAddresses: updatedAddresses, // Pass both address values
+//         }),
+//       })
+//         .then(function (res) {
+//           return res.json();
+//         })
+//         .then(function (data) {
+//           if (data.success) {
+//             console.log("Address updated successfully.");
+//           } else {
+//             alert("Failed to update address.");
+//           }
+//         })
+//         .catch(function (err) {
+//           console.error("Error updating address:", err);
+//         });
+//     }
+//   });
+// });
 
 
 /*
