@@ -85,6 +85,8 @@ router.delete('/contact/:id', contactController.deleteContact);
 *********************************************************
 */
 // router.get('/contact/:id', contactController.getAddressesByContactId);
+// In your routes file
+// router.put('/addresses/:contactId/:type', contactController.updateAddress);
 
 
 module.exports = router;

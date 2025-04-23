@@ -92,7 +92,6 @@ function renderContacts(filtered = contacts) {
   <path d="M31.94,40.38a1.5,1.5,0,0,1-1.5-1.5V28.7a1.5,1.5,0,1,1,3,0V38.88A1.5,1.5,0,0,1,31.94,40.38Z"/>
 </svg>`;
     deleteBtn.onclick = function () {
-      debugger
       if (confirm("Delete this contact?")) {
         fetch(`http://localhost:5000/api/contact/${contact.id}`, { method: "DELETE" })
           .then(response => {
