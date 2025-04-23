@@ -20,9 +20,12 @@ const editLastName = document.getElementById("editLastName");
 const editPhone = document.getElementById("editPhone");
 const editEmail = document.getElementById("editEmail");
 const editImageUrl = document.getElementById("editImageUrl");
-const editStreet = document.getElementById("editStreet");
-const editState = document.getElementById("editState");
-const editCountry = document.getElementById("editCountry");
+const editStreet1 = document.getElementById("editStreet1");
+const editState1 = document.getElementById("editState1");
+const editCountry1 = document.getElementById("editCountry1");
+const editStreet2 = document.getElementById("editStreet2");
+const editState2 = document.getElementById("editState2");
+const editCountry2 = document.getElementById("editCountry2");
 const cancelEdit = document.getElementById("cancelEdit");
 const address1button =document.getElementById("address1btn");
 const address2button =document.getElementById("address2btn");
@@ -55,6 +58,8 @@ function fetchContacts() {
 */
 function renderContacts(filtered = contacts) {
   contactList.innerHTML = "";
+ 
+
   filtered.forEach(function (contact) {
     const row = document.createElement("div");
     row.className = "contact-card";
@@ -115,26 +120,41 @@ function renderContacts(filtered = contacts) {
 */
 function showDetails(contact) {
   if (!contactDetails) return;
-    // Log each field to see its value
-    console.log("Profile Image:", contact.profile_img);
-    console.log("First Name:", contact.first_name);
-    console.log("Last Name:", contact.last_name);
-    console.log("Phone:", contact.phone);
-    console.log("Email:", contact.email);
-    console.log("Street (Address1):", contact.street);
-    console.log("State (Address2):", contact.state);
-    console.log("Country (Address2):", contact.country);
 
+  // Set contact basic details
   profileImage.src = contact.profile_img || "";
   detailFirstName.value = contact.first_name || "";
   detailLastName.value = contact.last_name || "";
   detailPhone.value = contact.phone || "";
   detailEmail.value = contact.email || "";
-  detailAddress1.value = contact.street || "";
-  detailAddress2.value = `${contact.state || ""}, ${contact.country || ""}`;
+
+  // Set address 1 if available
+  if (Array.isArray(contact.addresses) && contact.addresses.length > 0) {
+    var address1 = contact.addresses[0];
+    document.getElementById("Detailstreet1").value = address1.street || "";
+    document.getElementById("Detailstate1").value = address1.state || "";
+    document.getElementById("Detailcountry1").value = address1.country || "";
+  } else {
+    document.getElementById("Detailstreet1").value = "";
+    document.getElementById("Detailstate1").value = "";
+    document.getElementById("Detailcountry1").value = "";
+  }
+
+  // Set address 2 if available
+  if (Array.isArray(contact.addresses) && contact.addresses.length > 1) {
+    var address2 = contact.addresses[1];
+    document.querySelectorAll("#address2 .editable-row input")[0].value = address2.street || "";
+    document.querySelectorAll("#address2 .editable-row input")[1].value = address2.state || "";
+    document.querySelectorAll("#address2 .editable-row input")[2].value = address2.country || "";
+  } else {
+    document.querySelectorAll("#address2 .editable-row input")[0].value = "";
+    document.querySelectorAll("#address2 .editable-row input")[1].value = "";
+    document.querySelectorAll("#address2 .editable-row input")[2].value = "";
+  }
+
   contactDetails.hidden = false;
-  // currentEditId=contact.address_id;
 }
+
 /*
 *********************************************************
 *  @Method Name    : openModal
@@ -145,19 +165,40 @@ function showDetails(contact) {
 *********************************************************
 */
 function openModal(contact = {}) {
+  debugger
   modalOverlay.classList.remove("hidden");
   modalTitle.textContent = contact.contact_id ? "Edit Contact" : "Add Contact";
-  currentEditId = contact.contact_id|| null;
-
+  currentEditId = contact.id || null;
+      // console.log(currentEditId);
   editFirstName.value = contact.first_name || "";
   editLastName.value = contact.last_name || "";
   editPhone.value = contact.phone || "";
   editEmail.value = contact.email || "";
-  editImageUrl.value = contact.profile_img || "";
-  editStreet.value = contact.street || "";
-  editState.value = contact.state || "";
-  editCountry.value = contact.country || "";
+  editImageUrl.value = contact.profile_image || "";
+
+  // Clear existing address values
+  editStreet1.value = "";
+  editState1.value = "";
+  editCountry1.value = "";
+  editStreet2.value = "";
+  editState2.value = "";
+  editCountry2.value = "";
+
+  if (Array.isArray(contact.addresses)) {
+    contact.addresses.forEach(function (addr) {
+      if (addr.type === "address1") {
+        editStreet1.value = addr.street || "";
+        editState1.value = addr.state || "";
+        editCountry1.value = addr.country || "";
+      } else if (addr.type === "address2") {
+        editStreet2.value = addr.street || "";
+        editState2.value = addr.state || "";
+        editCountry2.value = addr.country || "";
+      }
+    });
+  }
 }
+
 /*
 *********************************************************
 *  @Method Name    : editForm.onsubmit
@@ -169,6 +210,8 @@ function openModal(contact = {}) {
 */
 editForm.onsubmit = function (e) {
   e.preventDefault();
+  debugger
+
   var phoneRegex = /^\d{7,}$/;
   var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]+$/;
 
@@ -182,28 +225,32 @@ editForm.onsubmit = function (e) {
     return;
   }
 
-
   var contactData = {
     first_name: editFirstName.value.trim(),
     last_name: editLastName.value.trim(),
     phone: editPhone.value.trim(),
     email: editEmail.value.trim(),
-    profile_img: editImageUrl.value.trim(),
-    
+    profile_image: editImageUrl.value.trim(), 
+
     addresses: [
       {
-        type: "address1", 
-        street: editStreet.value.trim(),
-        state: editState.value.trim(),
-        country: editCountry.value.trim()
+        type: "address1",
+        street: editStreet1.value.trim(),
+        state: editState1.value.trim(),
+        country: editCountry1.value.trim()
+      },
+      {
+        type: "address2",
+        street: editStreet2.value.trim(),
+        state: editState2.value.trim(),
+        country: editCountry2.value.trim()
       }
     ]
   };
-  
 
   var url = "http://localhost:5000/api/contact";
   var method = "POST";
-
+ debugger
   if (currentEditId) {
     url += "/" + currentEditId;
     method = "PUT";
@@ -211,6 +258,9 @@ editForm.onsubmit = function (e) {
 
   fetch(url, {
     method: method,
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(contactData)
   })
     .then(function (response) {
@@ -222,13 +272,14 @@ editForm.onsubmit = function (e) {
       modalOverlay.classList.add("hidden");
       editForm.reset();
       currentEditId = null;
-      fetchContacts();
+      fetchContacts(); // refresh UI
     })
     .catch(function (error) {
       console.error("Error:", error);
       alert("Something went wrong.");
     });
 };
+
 /*
 *********************************************************
 *  @Method Name    : cancelEdit.onclick
@@ -278,61 +329,6 @@ searchTool.oninput = function () {
 *  @return         : void
 *********************************************************
 */
-// [detailAddress1, detailAddress2].forEach(function (input) {
-//   input.addEventListener("click", function () {
-//     input.readOnly = false;
-//     input.focus();
-//   });
-
-//   input.addEventListener("keydown", function handleKey(e) {
-//     if (e.key === "Enter") {
-//       e.preventDefault();
-//       input.readOnly = true;
-//       input.removeEventListener("keydown", handleKey);
-
-//       var updatedValue = input.value.trim();
-//       var addressField = input.id === "detailAddress1" ? "address1" : "address2";
-//       var contactId = currentEditId;
-
-//       if (!contactId) {
-//         alert("No contact selected for update!");
-//         return;
-//       }
-
-//       // Collect both addresses for updating the contact
-//       var updatedAddresses = {
-//         address1: document.getElementById("detailAddress1").value.trim(),
-//         address2: document.getElementById("detailAddress2").value.trim(),
-//       };
-
-//       fetch("/update-address", {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           contactId: contactId,
-//           addressField: addressField,
-//           updatedValue: updatedValue,
-//           updatedAddresses: updatedAddresses, // Pass both address values
-//         }),
-//       })
-//         .then(function (res) {
-//           return res.json();
-//         })
-//         .then(function (data) {
-//           if (data.success) {
-//             console.log("Address updated successfully.");
-//           } else {
-//             alert("Failed to update address.");
-//           }
-//         })
-//         .catch(function (err) {
-//           console.error("Error updating address:", err);
-//         });
-//     }
-//   });
-// });
 
 
 /*

@@ -84,6 +84,7 @@ router.delete('/contact/:id', contactController.deleteContact);
 *  @return         : Express router object
 *********************************************************
 */
+// router.get('/contact/:id', contactController.getAddressesByContactId);
 
 
 module.exports = router;
