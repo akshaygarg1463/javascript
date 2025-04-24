@@ -274,25 +274,25 @@ exports.deleteContact = (req, res) => {
   });
 };
 
-// exports.updateAddress = function(req, res) {
-//   const contactId = req.params.contactId;
-//   const type = req.params.type;
-//   const { street, state, country } = req.body;
+exports.updateAddress = function(req, res) {
+  const contactId = req.params.contactId;
+  const type = req.params.type;
+  const { street, state, country } = req.body;
 
-//   const updateQuery = `
-//     UPDATE addresses
-//     SET street = ?, state = ?, country = ?
-//     WHERE contact_id = ? AND type = ?
-//   `;
+  const updateQuery = `
+    UPDATE addresses
+    SET street = ?, state = ?, country = ?
+    WHERE contact_id = ? AND type = ?
+  `;
 
-//   db.query(updateQuery, [street, state, country, contactId, type], function(err, result) {
-//     if (err) {
-//       return res.status(500).json({ message: 'Failed to update address', error: err });
-//     }
+  db.query(updateQuery, [street, state, country, contactId, type], function(err, result) {
+    if (err) {
+      return res.status(500).json({ message: 'Failed to update address', error: err });
+    }
 
-//     return res.status(200).json({ message: 'Address updated successfully' });
-//   });
-// };
+    return res.status(200).json({ message: 'Address updated successfully' });
+  });
+};
 
 
 

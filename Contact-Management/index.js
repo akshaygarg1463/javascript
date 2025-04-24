@@ -29,6 +29,15 @@ const editCountry2 = document.getElementById("editCountry2");
 const cancelEdit = document.getElementById("cancelEdit");
 const address1button =document.getElementById("address1btn");
 const address2button =document.getElementById("address2btn");
+const saveButton1 =document.getElementById("addresssave1btn");
+const changeStreet1=document.getElementById("Detailstreet1");
+const changeState1=document.getElementById("Detailstate1");
+const changeCountry1=document.getElementById("Detailcountry1");
+const changeStreet2=document.getElementById("Detailstreet2");
+const changeState2=document.getElementById("Detailstate2");
+const changeCountry2=document.getElementById("Detailcountry2");
+const saveButton2 =document.getElementById("addresssave2btn");
+
 /*
 *********************************************************
 *  @Method Name    : fetchContacts
@@ -63,7 +72,7 @@ function renderContacts(filtered = contacts) {
   filtered.forEach(function (contact) {
     const row = document.createElement("div");
     row.className = "contact-card";
-
+    currentEditId=contact.id;
     const name = document.createElement("span");
     name.textContent = contact.first_name + " " + contact.last_name;
     name.className = "contact-name";
@@ -166,9 +175,9 @@ function showDetails(contact) {
 */
 function openModal(contact = {}) {
   debugger
+  currentEditId = contact.id 
   modalOverlay.classList.remove("hidden");
-  modalTitle.textContent = contact.contact_id ? "Edit Contact" : "Add Contact";
-  currentEditId = contact.id || null;
+  modalTitle.textContent = contact.id ? "Edit Contact" : "Add Contact";
       // console.log(currentEditId);
   editFirstName.value = contact.first_name || "";
   editLastName.value = contact.last_name || "";
@@ -176,7 +185,7 @@ function openModal(contact = {}) {
   editEmail.value = contact.email || "";
   editImageUrl.value = contact.profile_image || "";
 
-  // Clear existing address values
+
   editStreet1.value = "";
   editState1.value = "";
   editCountry1.value = "";
@@ -329,6 +338,86 @@ searchTool.oninput = function () {
 *  @return         : void
 *********************************************************
 */
+address1button.onclick = function () {
+  debugger;
+  changeStreet1.removeAttribute("readonly");
+  changeState1.removeAttribute("readonly");
+  changeCountry1.removeAttribute("readonly");
+  saveButton1.style.display = "block";
+  address1button.style.display = "none";
+
+  saveButton1.onclick = function () {
+    var updatedAddress = {
+      street: changeStreet1.value,
+      state: changeState1.value,
+      country: changeCountry1.value
+    };
+    console.log(currentEditId);
+    fetch(`http://localhost:5000/api/addresses/${currentEditId}/address1`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedAddress)
+    })
+      .then(function (response) {
+        if (response.ok) {
+          alert("Address 1 updated");
+          changeStreet1.setAttribute("readonly", true);
+          changeState1.setAttribute("readonly", true);
+          changeCountry1.setAttribute("readonly", true);
+          saveButton1.style.display = "none";
+          address1button.style.display = "block";
+        } else {
+          alert("Failed to update address");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+        alert("Something went wrong");
+      });
+  };
+};
+address2button.onclick = function () {
+  debugger;
+  changeStreet2.removeAttribute("readonly");
+  changeState2.removeAttribute("readonly");
+  changeCountry2.removeAttribute("readonly");
+  saveButton2.style.display = "block";
+  address2button.style.display = "none";
+
+  saveButton2.onclick = function () {
+    var updatedAddress = {
+      street: changeStreet2.value,
+      state: changeState2.value,
+      country: changeCountry2.value
+    };
+    console.log(currentEditId);
+    fetch(`http://localhost:5000/api/addresses/${currentEditId}/address2`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(updatedAddress)
+    })
+      .then(function (response) {
+        if (response.ok) {
+          alert("Address 2 updated");
+          changeStreet2.setAttribute("readonly", true);
+          changeState2.setAttribute("readonly", true);
+          changeCountry2.setAttribute("readonly", true);
+          saveButton2.style.display = "none";
+          address2button.style.display = "block";
+        } else {
+          alert("Failed to update address");
+        }
+      })
+      .catch(function (error) {
+        console.error("Error:", error);
+        alert("Something went wrong");
+      });
+  };
+};
 
 
 /*
