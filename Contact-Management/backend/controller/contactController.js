@@ -174,10 +174,9 @@ exports.updateContact = (req, res) => {
     email,
     phone,
     profile_img,
-    addresses // Array of address objects
+    addresses 
   } = req.body;
 
-  // Step 1: Update the contact table
   const updateContactQuery = `
     UPDATE contacts 
     SET first_name = ?, last_name = ?, email = ?, phone = ?, profile_img = ? 
@@ -189,14 +188,14 @@ exports.updateContact = (req, res) => {
       return res.status(500).json({ message: 'Failed to update contact', error: err });
     }
 
-    // Step 2: Delete existing addresses for this contact
+
     const deleteAddressQuery = `DELETE FROM addresses WHERE contact_id = ?`;
     db.query(deleteAddressQuery, [contactId], function(err) {
       if (err) {
         return res.status(500).json({ message: 'Failed to delete old addresses', error: err });
       }
 
-      // Step 3: Insert new addresses
+
       if (addresses && addresses.length > 0) {
         const insertAddressQuery = `
           INSERT INTO addresses (contact_id, type, street, state, country)
@@ -240,7 +239,7 @@ exports.updateContact = (req, res) => {
 exports.deleteContact = (req, res) => {
   const contactId = req.params.id;
 
-  // Step 1: Delete the contact (addresses will auto-delete if ON DELETE CASCADE is enabled)
+  
   const deleteContactQuery = `DELETE FROM contacts WHERE id = ?`;
 
   db.query(deleteContactQuery, [contactId], function(err, result) {

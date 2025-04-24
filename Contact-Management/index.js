@@ -237,7 +237,7 @@ editForm.onsubmit = function (e) {
     last_name: editLastName.value.trim(),
     phone: editPhone.value.trim(),
     email: editEmail.value.trim(),
-    profile_image: editImageUrl.value.trim(), 
+    profile_img: editImageUrl.value.trim(), 
 
     addresses: [
       {
