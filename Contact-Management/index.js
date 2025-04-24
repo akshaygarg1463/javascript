@@ -128,9 +128,8 @@ function renderContacts(filtered = contacts) {
 *********************************************************
 */
 function showDetails(contact) {
+  debugger
   if (!contactDetails) return;
-
-  // Set contact basic details
   profileImage.src = contact.profile_img || "";
   detailFirstName.value = contact.first_name || "";
   detailLastName.value = contact.last_name || "";
@@ -183,7 +182,7 @@ function openModal(contact = {}) {
   editLastName.value = contact.last_name || "";
   editPhone.value = contact.phone || "";
   editEmail.value = contact.email || "";
-  editImageUrl.value = contact.profile_image || "";
+  editImageUrl.value = contact.profile_img || "";  
 
 
   editStreet1.value = "";

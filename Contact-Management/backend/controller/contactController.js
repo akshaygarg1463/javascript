@@ -13,16 +13,16 @@ const db = require('../db');
 *********************************************************
 */
 exports.createContact = function(req, res) {
-    const { first_name, last_name, email, phone, profile_img, addresses } = req.body;
+    const { first_name, last_name, email, phone,  profile_image, addresses } = req.body;
     console.log("random value",req.body)
     const contactQuery = `INSERT INTO contacts (first_name, last_name, email, phone, profile_img) VALUES (?, ?, ?, ?, ?)`;
   
-    db.query(contactQuery, [first_name, last_name, email, phone, profile_img], function(err, result) {
+    db.query(contactQuery, [first_name, last_name, email, phone,  profile_image], function(err, result) {
       if (err) return res.status(500).json({ error: 'Database error during contact insertion', details: err });
   
       const contactId = result.insertId;
   
-      // Step 2: Insert the addresses (if provided)
+      
       if (Array.isArray(addresses) && addresses.length > 0) {
         const addressQuery = `INSERT INTO addresses (contact_id, type, street, state, country) VALUES ?`;
   
@@ -36,7 +36,7 @@ exports.createContact = function(req, res) {
           res.status(201).json({ message: 'Contact and addresses created', contact_id: contactId });
         });
       } else {
-        // No addresses to insert
+        
         res.status(201).json({ message: 'Contact created (no addresses)', contact_id: contactId });
       }
     });
@@ -64,34 +64,24 @@ exports.getAllContacts = function(req, res) {
   `;
 
   db.query(query, function(err, results) {
-    if (err) {
-      return res.status(500).json({ message: 'Database query failed', error: err });
-    }
-
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'No contacts found' });
-    }
+    if (err) return res.status(500).json({ message: 'Database error', error: err });
+    if (!results.length) return res.status(404).json({ message: 'No contacts found' });
 
     const contactsMap = {};
 
-    for (let i = 0; i < results.length; i++) {
-      const row = results[i];
-      const contactId = row.contact_id;
-
-      if (!contactsMap[contactId]) {
-        contactsMap[contactId] = {
-          id: contactId,
-          first_name: row.first_name,
-          last_name: row.last_name,
-          email: row.email,
-          phone: row.phone,
-          profile_img: row.profile_img,
-          addresses: []
-        };
-      }
+    results.forEach(function(row) {
+      const contact = contactsMap[row.contact_id] ||= {
+        id: row.contact_id,
+        first_name: row.first_name,
+        last_name: row.last_name,
+        email: row.email,
+        phone: row.phone,
+        profile_image: row.profile_img, 
+        addresses: []
+      };
 
       if (row.address_id) {
-        contactsMap[contactId].addresses.push({
+        contact.addresses.push({
           id: row.address_id,
           type: row.type,
           street: row.street,
@@ -99,13 +89,12 @@ exports.getAllContacts = function(req, res) {
           country: row.country
         });
       }
-    }
+    });
 
-    const contacts = Object.values(contactsMap);
-
-    res.status(200).json(contacts);
+    res.status(200).json(Object.values(contactsMap));
   });
 };
+
 
 
 
@@ -132,40 +121,33 @@ exports.getContactById = function(req, res) {
   `;
 
   db.query(query, [contactId], function(err, results) {
-    if (err) {
-      return res.status(500).json({ message: 'Database query failed', error: err });
-    }
+    if (err) return res.status(500).json({ message: 'Database query failed', error: err });
+    if (!results.length) return res.status(404).json({ message: `Contact with ID ${contactId} not found` });
 
-    if (results.length === 0) {
-      return res.status(404).json({ message: `Contact with ID ${contactId} not found` });
-    }
+    const row = results[0];
 
-    // Build the contact from the first result row
     const contact = {
-      id: results[0].contact_id,
-      first_name: results[0].first_name,
-      last_name: results[0].last_name,
-      email: results[0].email,
-      phone: results[0].phone,
-      profile_img: results[0].profile_img,
+      id: row.contact_id,
+      first_name: row.first_name,
+      last_name: row.last_name,
+      email: row.email,
+      phone: row.phone,
+      profile_image: row.profile_img, 
       addresses: []
     };
 
-    // Push all associated addresses (if any)
-    for (let i = 0; i < results.length; i++) {
-      const row = results[i];
-      if (row.address_id) {
+    results.forEach(function(r) {
+      if (r.address_id) {
         contact.addresses.push({
-          id: row.address_id,
-          type: row.type,
-          street: row.street,
-          state: row.state,
-          country: row.country
+          id: r.address_id,
+          type: r.type,
+          street: r.street,
+          state: r.state,
+          country: r.country
         });
       }
-    }
+    });
 
-    // Respond with a single contact object, with addresses grouped inside
     res.status(200).json(contact);
   });
 };
