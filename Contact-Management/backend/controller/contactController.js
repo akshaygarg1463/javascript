@@ -255,7 +255,18 @@ exports.deleteContact = (req, res) => {
     res.status(200).json({ message: 'Contact and associated addresses deleted successfully' });
   });
 };
-
+/*
+*********************************************************
+*  @Method Name    : updateAddress
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : Updates the address details of a specific type for a given contact ID.
+*  @param          : contactId - ID of the contact (from URL params)
+*                    type - Type of the address to update (from URL params)
+*                    req.body - Contains updated street, state, and country values
+*  @return         : JSON response with a success message or error.
+*********************************************************
+*/
 exports.updateAddress = function(req, res) {
   const contactId = req.params.contactId;
   const type = req.params.type;

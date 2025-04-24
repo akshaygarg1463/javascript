@@ -72,6 +72,20 @@ router.put('/contact/:id', contactController.updateContact);
 */
 router.delete('/contact/:id', contactController.deleteContact);
 
+/*
+*********************************************************
+*  @Route          : PUT /addresses/:contactId/:type
+*  @Author         : Akshay Garg (akshay.garg@antrazal.com)
+*  @Company        : Antrazal
+*  @Description    : API endpoint to update a specific type of address 
+*                    for a given contact ID.
+*  @Params         : contactId - ID of the contact whose address is to be updated
+*                    type - Type of the address (e.g., home, work)
+*  @Request Body   : street, state, country - New address details
+*  @Controller     : contactController.updateAddress
+*********************************************************
+*/
+router.put('/addresses/:contactId/:type', contactController.updateAddress);
 
 /*
 *********************************************************
@@ -86,7 +100,7 @@ router.delete('/contact/:id', contactController.deleteContact);
 */
 
 
-router.put('/addresses/:contactId/:type', contactController.updateAddress);
+
 
 
 module.exports = router;

@@ -136,7 +136,6 @@ function showDetails(contact) {
   detailPhone.value = contact.phone || "";
   detailEmail.value = contact.email || "";
 
-  // Set address 1 if available
   if (Array.isArray(contact.addresses) && contact.addresses.length > 0) {
     var address1 = contact.addresses[0];
     document.getElementById("Detailstreet1").value = address1.street || "";
@@ -148,7 +147,7 @@ function showDetails(contact) {
     document.getElementById("Detailcountry1").value = "";
   }
 
-  // Set address 2 if available
+
   if (Array.isArray(contact.addresses) && contact.addresses.length > 1) {
     var address2 = contact.addresses[1];
     document.querySelectorAll("#address2 .editable-row input")[0].value = address2.street || "";
@@ -280,7 +279,7 @@ editForm.onsubmit = function (e) {
       modalOverlay.classList.add("hidden");
       editForm.reset();
       currentEditId = null;
-      fetchContacts(); // refresh UI
+      fetchContacts();
     })
     .catch(function (error) {
       console.error("Error:", error);
